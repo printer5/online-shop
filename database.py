@@ -38,6 +38,24 @@ def get_products():
     conn.close()
     return products
 
+def get_product_by_id(product_id):
+    conn = sqlite3.connect("shop.db")
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM products WHERE id = ?', (product_id,))
+    product = cursor.fetchone()
+
+    conn.close()
+    if product:
+        return {
+            "name": product[1],
+            "price": product[2],
+            "description": product[3],
+            "image": product[4]
+        }
+    else:
+        return None
+
 if __name__ == "__main__":
     create_db()
     add_product("test product", 9.89, "opisanie", "static/uploads/product1.png")

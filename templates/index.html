@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <h1>Online market</h1>
     <h2>katalog price</h2>
-    {% for product in products %}
-        <div class=""product>
-            <h3>{{ product[1] }}</h3>
-            <p>{{ product[3] }}</p>
-            <p>Цена: {{ product[2] }} rub</p>
-            {% if  product[4] %}
-                <img src="{{ product[4] }}" width="200">
-            {% endif %}
-        </div>
-    {% endfor %}
+    <div class="products">
+        {% for product in products %}
+            <div class=""product>
+                <h3>{{ product[1] }}</h3>
+                <p>{{ product[3] }}</p>
+                <p>Цена: {{ product[2] }} rub</p>
+                {% if  product[4] %}
+                    <img src="{{ product[4] }}" width="200">
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
     
 </body>
 </html>
