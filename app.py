@@ -1,16 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import database
 import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.secret_key = "halalhallalal"
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def index():
     products = database.get_products()
-    return render_template("index.html", products=products)
+    cart = session.get("cart", {})
+    return render_template("index.html", products=products, cart=cart)
 
 @app.route("/add_product", methods=["GET", "POST"])
 def add_product():
@@ -36,6 +38,29 @@ def product(product_id):
         return render_template("product.html", product=product)
     else:
         return redirect(url_for('index'))
+    
+@app.route("/delete_product/<int:product_id>", methods=["POST"])
+def delete_product(product_id):
+    database.delete_product(product_id)
+    return redirect(url_for('index'))
+
+@app.route("/add_to_cart/<int:product_id>")
+def add_to_cart(product_id):
+    '''
+    { id: count, id2: count2}
+    '''
+    product_id = str(product_id)
+    cart = session.get("cart", {})
+
+    if product_id in cart:
+        cart[product_id] += 1
+    else:
+        cart[product_id] = 1
+
+    session["cart"] = cart
+
+    return redirect(url_for('index'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

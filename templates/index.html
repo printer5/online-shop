@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Online market</h1>
-    <h2>katalog price</h2>
+    <h1>Онлайн магазин</h1>
+    <h2>каталог price</h2>
+    <p>{{ cart }}</p>
     <div class="products">
         {% for product in products %}
             <div class=""product>
@@ -18,6 +19,8 @@
                 {% if  product[4] %}
                     <img src="{{ product[4] }}" width="200">
                 {% endif %}
+                <a href="{{ url_for('product', product_id=product[0]) }}"><button>Подробнее</button></a>
+                <a href="{{ url_for('add_to_cart', product_id=product[0]) }}"><button>добавить в корзину</button></a>
             </div>
         {% endfor %}
     </div>

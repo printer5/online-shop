@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, os
 
 def create_db():
     conn = sqlite3.connect("shop.db")
@@ -48,6 +48,7 @@ def get_product_by_id(product_id):
     conn.close()
     if product:
         return {
+            "id": product[0],
             "name": product[1],
             "price": product[2],
             "description": product[3],
@@ -55,6 +56,18 @@ def get_product_by_id(product_id):
         }
     else:
         return None
+    
+def delete_product(product_id):
+    conn = sqlite3.connect("shop.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM products WHERE id=?", (product_id,))
+    product = cursor.fetchone()
+    image_path = product[4]
+    if os.path.exists(image_path):
+        os.remove(image_path)
+
+    cursor.execute("DELETE FROM products WHERE id = ?", (product_id,))
+    conn.commit()
 
 if __name__ == "__main__":
     create_db()
