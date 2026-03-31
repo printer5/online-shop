@@ -69,6 +69,18 @@ def delete_product(product_id):
     cursor.execute("DELETE FROM products WHERE id = ?", (product_id,))
     conn.commit()
 
+def validate_cart(cart):
+    conn = sqlite3.connect("shop.db")
+    cursor = conn.cursor()
+
+    ids = list(cart.keys())
+    for i in ids:
+        cursor.execute("SELECT * FROM products WHERE id=?", (int(i),))
+        product = cursor.fetchone()
+        if not product:
+            del cart[i]
+    return cart
+
 if __name__ == "__main__":
     create_db()
     add_product("test product", 9.89, "opisanie", "static/uploads/product1.png")

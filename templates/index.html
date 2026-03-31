@@ -9,7 +9,29 @@
 <body>
     <h1>Онлайн магазин</h1>
     <h2>каталог price</h2>
-    <p>{{ cart }}</p>
+    <style>
+        .cart-img{
+            position: relative;
+            width: 100px;
+        }
+        .cart-img::after{
+            content: "{{ cart_count }}";
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-size: 24px;
+        }
+    </style>
+    <div class="cart-img">
+        <img src="{{ url_for('static', filename='img/aaaaa.png') }}" alt="" width="100"> 
+    </div>
+    
     <div class="products">
         {% for product in products %}
             <div class=""product>

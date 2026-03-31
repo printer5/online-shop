@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+</head>
+<body>
+    <h1>Корзина</h1>
+    <style>
+        table {
+            border-collapse: collapse;
+            border: 2px solid rgb(140 140 140);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        th, td {
+            border: 1px solid rgb(160 160 160);
+            padding: 8px 10px;
+        }
+    </style>
+    <table>
+        <tr>
+            <th>фото</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Цена</th>
+            <th>Количество</th>
+        </tr>
+        <tr>
+            <td>
+                <img src="{{ url_for('static', filename='img/aaaaa.png') }}" alt="" width="100">
+            </td>
+            <td>Корзина</td>
+            <td>Корзина онлайн магазина</td>
+            <td>999.99</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td colspan="4">итого:</td>
+            <td>1999.98 руб</td>
+        </tr>
+    </table>
+</body>
+</html>

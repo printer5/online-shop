@@ -12,7 +12,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def index():
     products = database.get_products()
     cart = session.get("cart", {})
-    return render_template("index.html", products=products, cart=cart)
+    cart = database.validate_cart(cart)
+    cart_count = len(cart)
+    return render_template("index.html", products=products, cart=cart, cart_count=cart_count)
 
 @app.route("/add_product", methods=["GET", "POST"])
 def add_product():
@@ -51,6 +53,8 @@ def add_to_cart(product_id):
     '''
     product_id = str(product_id)
     cart = session.get("cart", {})
+    cart = database.validate_cart(cart)
+    print(cart)
 
     if product_id in cart:
         cart[product_id] += 1
@@ -60,6 +64,7 @@ def add_to_cart(product_id):
     session["cart"] = cart
 
     return redirect(url_for('index'))
+
 
 
 if __name__ == "__main__":
