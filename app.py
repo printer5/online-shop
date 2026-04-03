@@ -65,6 +65,41 @@ def add_to_cart(product_id):
 
     return redirect(url_for('index'))
 
+@app.route("/cart", methods=["GET"])
+def cart():
+    cart = session.get("cart", {})
+    cart = database.validate_cart(cart)
+    render_cart = []
+    cart_summa = 0
+    for product in cart:
+        product_info = database.get_product_by_id(int(product))
+        product_count = cart[product]
+        cart_summa += product_count * product_info["price"]
+        render_cart.append(
+            {
+                "product_info": product_info,
+                "count": product_count
+            }
+        )
+    return render_template("cart.html", cart=render_cart, cart_summa=cart_summa)
+    
+@app.route("/change_cart_product_amount", methods=["POST"])
+def change_cart_product_amount():
+    product_id = request.form["product_id"]
+    action = request.form["action"]
+    cart = session.get("cart", {})
+    cart = database.validate_cart(cart)
+    if action == "plus":
+        cart[str(product_id)] += 1
+    else:
+        cart[str(product_id)] -= 1
+
+        if cart[str(product_id)] <= 0:
+            del cart[str(product_id)]
+    session["cart"] = cart
+    return redirect(url_for("cart"))
+
+
 
 
 if __name__ == "__main__":

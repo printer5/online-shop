@@ -27,18 +27,33 @@
             <th>Цена</th>
             <th>Количество</th>
         </tr>
+        {% for product in cart %}
         <tr>
             <td>
-                <img src="{{ url_for('static', filename='img/aaaaa.png') }}" alt="" width="100">
+                <img src="{{ product.product_info.image }}" alt="" width="100">
             </td>
-            <td>Корзина</td>
-            <td>Корзина онлайн магазина</td>
-            <td>999.99</td>
-            <td>2</td>
+            <td>{{ product.product_info.name }}</td>
+            <td>{{ product.product_info.description }}</td>
+            <td>{{ product.product_info.price }} руб</td>
+            <td>
+                <form action="{{ url_for('change_cart_product_amount') }}" method="POST">
+                    <button type="submit">-</button>
+                    <input type="hidden" name="product_id" value="{{product.product_info.id}}">
+                    <input type="hidden" name="action" value="minus">
+                </form>
+                {{ product.count }} 
+                <form action="{{ url_for('change_cart_product_amount') }}" method="POST">
+                    <button type="submit">+</button>
+                    <input type="hidden" name="product_id" value="{{product.product_info.id}}">
+                    <input type="hidden" name="action" value="plus">
+                </form>
+            
+            </td>
         </tr>
+        {% endfor %}
         <tr>
             <td colspan="4">итого:</td>
-            <td>1999.98 руб</td>
+            <td>{{cart_summa}} руб</td>
         </tr>
     </table>
 </body>

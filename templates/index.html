@@ -28,8 +28,13 @@
             font-size: 24px;
         }
     </style>
+    <div>
+        <a href="{{ url_for('add_product') }}"><button>добавить товар</button></a>
+    </div>
     <div class="cart-img">
+        <a href="{{ url_for('cart') }}">
         <img src="{{ url_for('static', filename='img/aaaaa.png') }}" alt="" width="100"> 
+        </a>
     </div>
     
     <div class="products">
